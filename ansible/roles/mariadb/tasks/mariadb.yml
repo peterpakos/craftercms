@@ -1,0 +1,67 @@
+---
+
+- name: Add MariaDB yum repo
+  template:
+    src: MariaDB.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo
+
+- name: List MariaDB packages
+  yum:
+    list: MariaDB-server
+  register: list_mariadb
+
+- name: Check if MariaDB is installed
+  set_fact:
+    mariadb_installed: "{% if list_mariadb.results | selectattr('yumstate', 'match', 'installed') | list | length == 1 %}{{ true }}{% else %}{{ false }}{% endif %}"
+
+- name: Install MariaDB
+  yum:
+    name:
+      - MariaDB-server
+      - MySQL-python
+    state: present
+  when: not mariadb_installed
+
+- name: Enable and start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Allow MariaDB access for Crafter CMS
+  command: mysql -e "{{ item }}"
+  loop:
+    - "CREATE DATABASE crafter"
+    - "CREATE USER 'root'@'%' IDENTIFIED BY '{{ mariadb_root_passwd }}'"
+    - "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'"
+    - "CREATE USER 'crafter'@'%' IDENTIFIED BY '{{ mariadb_crafter_passwd }}'"
+    - "GRANT ALL PRIVILEGES ON *.* TO 'crafter'@'%'"
+    - "FLUSH PRIVILEGES"
+  when: not mariadb_installed
+
+    #- name: Check if root password is set
+    #  command: mysqladmin -u root status
+    #  changed_when: false
+    #  failed_when: false
+    #  register: mysql_root_pwd_check
+    #
+    #- name: Set MariaDB root password (root@localhost)
+    #  mysql_user:
+    #    name: root
+    #    password: "{{ mariadb_root_passwd }}"
+    #    host: localhost
+    #    login_unix_socket: /var/lib/mysql/mysql.sock
+    #    state: present
+    #  when: mysql_root_pwd_check.rc == 0
+    #
+    #- name: Set MariaDB root password (root@127.0.0.1)
+    #  mysql_user:
+    #    name: root
+    #    password: "{{ mariadb_root_passwd }}"
+    #    host_all: yes
+    #    login_user: root
+    #    login_password: "{{ mariadb_root_passwd }}"
+    #    login_unix_socket: /var/lib/mysql/mysql.sock
+    #    state: present
+    #    #when: mysql_root_pwd_check.rc == 0
+

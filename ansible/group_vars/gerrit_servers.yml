@@ -1,0 +1,23 @@
+---
+
+gerrit_version: 2.13.12
+gerrit_url: https://gerrit-releases.storage.googleapis.com/gerrit-{{ gerrit_version }}.war
+repos_url: http://srepo01.shdc.wandisco.com/internal/tars/git_repositories.tgz
+gerrit_user: gitms
+gerrit_root: /opt/gerrit
+repos_root: /opt/git_repositories
+gitms_root: /opt/wandisco/git-multisite
+gitms_url_map:
+  2.13.9: https://customer.wandisco.com/files/download/1100/45c82e532f4b3d97af4c9234ca831c9b/2462/1544615872/dUK_cG2h_Q7tzT_CAfH_ndR8pkFiE5FWdzrCp_NVaIs=/GitMS-1.9.2.3-e03f180a-rhel7-installer-rpm.sh
+  2.13.11: https://customer.wandisco.com/files/download/1100/45c82e532f4b3d97af4c9234ca831c9b/3730/1548856841/xQr4RJZhXvZ0DJJjMXOBgT0SXl0iA6EGbGl2hDXnwqU=/GitMS-1.9.5.5-dd32d91e-rhel7-installer-rpm.sh
+  2.13.12: https://customer.wandisco.com/files/download/1100/45c82e532f4b3d97af4c9234ca831c9b/3956/1562069139/A1ptkBCyVfRuSCJm5j_jtnl9iXleTzYa+L3o+lJHtVg=/GitMS-1.9.6.3-a6cd3666-rhel7-installer-rpm.sh
+gitms_url: "{{ gitms_url_map[gerrit_version] }}"
+gitms_user: "{{ gerrit_user }}"
+gitms_nic: "{{ percona_nic }}"
+rg_name: allnodes
+gerritms_url_map:
+  2.13.9: https://customer.wandisco.com/files/download/1113/a6aec7b713933f59d16314d83189fe9a/2463/1549900950/b4rgpsHS4wFgAwMqFFcwwzLvRIZoVwMsmDvzYkM2zuw=/gerritms-1.9.2.2-0008-installer.sh
+  2.13.11: https://customer.wandisco.com/files/download/1100/45c82e532f4b3d97af4c9234ca831c9b/3469/1548856841/xQr4RJZhXvZ0DJJjMXOBgT0SXl0iA6EGbGl2hDXnwqU=/gerritms-1.9.4.1-0082-installer.sh
+  2.13.12: https://customer.wandisco.com/files/download/1113/a6aec7b713933f59d16314d83189fe9a/3951/1562069033/AfzYLiMfiDRFQwauWGskld97y7eZD0gsEgvm4ldmLRo=/gerritms-1.9.6.1-0009-installer.sh
+gerritms_url: "{{ gerritms_url_map[gerrit_version] }}"
+

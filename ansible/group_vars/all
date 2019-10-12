@@ -1,0 +1,4 @@
+---
+
+mariadb_root_passwd: "root"
+mariadb_crafter_passwd: "crafter"

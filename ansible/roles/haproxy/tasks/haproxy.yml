@@ -1,0 +1,25 @@
+---
+
+- name: Install HAProxy
+  yum:
+    name:
+      - haproxy
+    state: present
+
+- name: Update haproxy.cfg
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  register: haproxy_cfg
+
+- name: Restart HAProxy if config changed
+  service:
+    name: haproxy
+    state: restarted
+  when: haproxy_cfg is changed
+
+- name: Enable and start HAProxy
+  service:
+    name: haproxy
+    state: started
+    enabled: yes

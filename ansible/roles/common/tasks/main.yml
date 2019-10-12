@@ -1,0 +1,68 @@
+---
+
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Set timezone
+  timezone:
+    name: Europe/London
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: Check if firewalld is installed
+  yum:
+    list: firewalld
+  register: yum_list_firewalld
+
+- name: Ensure firewalld is disabled and stopped
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+  when: yum_list_firewalld.results | selectattr("yumstate", "match", "installed") | list | length == 1
+
+- name: Install epel-release
+  package:
+    name: epel-release
+    state: present
+
+- name: Install common packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ntp
+    - java-1.8.0-openjdk-devel
+    - libaio
+    - lsof
+    - ncurses-devel
+    - git
+
+- name: Ensure /usr/java exists
+  file:
+    path: /usr/java
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Link /usr/java/default
+  file:
+    src: /usr/lib/jvm/java-1.8.0-openjdk
+    dest: /usr/java/default
+    state: link
+
+- name: Set JAVA_HOME
+  copy:
+    content: "export JAVA_HOME=/usr/java/default\n"
+    dest: /etc/profile.d/set_java_home.sh
+
+- name: Ensure chronyd is enabled and running
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
