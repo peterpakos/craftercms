@@ -55,13 +55,21 @@ export N=4
 make deploy
 make destroy
 ```
+When you run `N=x make deploy` where `x` is higher than current number of nodes
+in the cluster, new node/nodes will be deployed and Ansible provisioning will
+be run against all nodes in the cluster.
 
 ### Vertical scaling
-In a similar fashion as scaling instances up, you can adjust number of CPU
-cores and RAM (in MBs) assigned to each VM by setting environment variables
-`CPU` and `RAM`:
+In order to adjust number of CPU cores and RAM (in MBs) assigned to each VM,
+set environment variables `CPU` and `RAM` when creating the environment:
 ```
 CPU=4 RAM=8192 make deploy
+```
+
+If you want to scale the instances up after the deployment, the instances will
+have to be reloaded. Run:
+```
+CPU=4 RAM=8192 make reload
 ```
 
 ## Prerequisites
@@ -74,7 +82,6 @@ on the host machine and the latest version of the following tools is installed:
 - Wget
 - Git
 
-## Clone GitHub project repository
 In order to clone the repository to a local machine, run:
 ```
 git clone https://github.com/peterpakos/craftercms.git
@@ -88,9 +95,10 @@ make deploy
 ```
 
 ## Provision
-To create and provision new environment, run:
+If you have made any changes to the Ansible automation codebase and wish to run
+the Ansible playbook to deploy these changes, run:
 ```
-make deploy
+make provision
 ```
 
 ## Rebuild

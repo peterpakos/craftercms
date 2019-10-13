@@ -18,12 +18,20 @@ deploy: fetch
 	vagrant up
 .PHONY: deploy
 
+provision:
+	vagrant provision
+.PHONY: provision
+
 destroy:
 	vagrant destroy -f || true
 .PHONY: destroy
 
 rebuild: destroy deploy
 .PHONY: rebuild
+
+reload:
+	vagrant reload
+.PHONY: reload
 
 clean: destroy
 	rm -rf $(FETCH_DIR)
