@@ -151,7 +151,7 @@ A test site in the [Load Balanced CrafterCMS Studio](http://192.168.69.11/studio
 
 ## Notes
 I seem to be hitting some sort of bug in Crafter CMS after creating a new site
-on any of the nodes.
+on any of the nodes - raised this as [bug #3527](https://github.com/craftercms/craftercms/issues/3527).
 
 Below is the NPE error from `/opt/crafter/logs/tomcat/catalina.out`:
 ```
