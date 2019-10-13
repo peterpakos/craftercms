@@ -34,12 +34,10 @@
     name: "{{ item }}"
     state: present
   loop:
-    - ntp
     - java-1.8.0-openjdk-devel
     - libaio
     - lsof
     - ncurses-devel
-    - git
 
 - name: Ensure /usr/java exists
   file:

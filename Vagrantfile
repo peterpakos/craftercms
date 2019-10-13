@@ -1,16 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-N = ENV["N"] || "3"
-CORES = 2
-RAM = 4096
+N = ENV["N"] || 3
+CPU = ENV["CPU"] || 2
+RAM = ENV["RAM"] || 4096
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.vm.box = "peterpakos/centos-7"
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--ioapic", "on"]
-    vb.customize ["modifyvm", :id, "--cpus", CORES]
+    vb.customize ["modifyvm", :id, "--cpus", CPU]
     vb.customize ["modifyvm", :id, "--memory", RAM]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
