@@ -43,6 +43,7 @@ frontend  http
 
 backend http
     balance     roundrobin
+    option httpchk /studio
     cookie SERVERID insert indirect nocache
 {% for host in ansible_play_hosts[1:] %}
     server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_facts']['eth1']['ipv4']['address'] }}:8080 check cookie {{ hostvars[host]['ansible_hostname'] }}

@@ -30,7 +30,7 @@ rebuild: destroy deploy
 .PHONY: rebuild
 
 reload:
-	vagrant reload
+	vagrant reload --provision
 .PHONY: reload
 
 clean: destroy

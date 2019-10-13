@@ -35,7 +35,6 @@
   command: nohup bin/startup.sh
   args:
     chdir: /opt/crafter
-    creates: /opt/crafter/bin/apache-tomcat/tomcat.pid
   environment:
     JAVA_HOME: "/usr/java/default"
   become: yes
